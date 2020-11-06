@@ -9,7 +9,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         message(FATAL_ERROR "Insufficient gcc version (>= 7.5.0 required)")
     endif()
 else()
-    message(FATAL_ERROR "Compiler is not GCC")
+    #message(FATAL_ERROR "Compiler is not GCC")
 endif()
 
 # check build type
@@ -38,12 +38,15 @@ endif()
 
 # check graphviz and rapidjson dependencies
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake.modules)
+if(UNIX)
 include(${PROJECT_SOURCE_DIR}/cmake.modules/FindGraphviz.cmake)
+endif(UNIX)
 include(${PROJECT_SOURCE_DIR}/cmake.modules/FindRapidJSON.cmake)
 
 # add sub-folder with tests
 add_subdirectory(tests)
 
+if(UNIX)
 # check Doxygen dependency
 find_package(Doxygen OPTIONAL_COMPONENTS dot)
 if (DOXYGEN_FOUND)
@@ -62,3 +65,4 @@ if (DOXYGEN_FOUND)
 else (DOXYGEN_FOUND)
     message("Doxygen needs to be installed to generate the doxygen documentation")
 endif (DOXYGEN_FOUND)
+endif(UNIX)
